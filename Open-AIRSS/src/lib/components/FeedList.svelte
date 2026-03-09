@@ -77,7 +77,7 @@
                         width="16"
                         height="16"
                         loading="lazy"
-                        on:error={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+                        on:error={(e) => { e.currentTarget.style.display = 'none'; }}
                       />
                     </span>
                     <span class="feed-list__label">{feed.title}</span>

@@ -65,7 +65,7 @@
         <select
           class="toolbar__select"
           value={$settings.theme}
-          on:change={(e) => settings.setTheme(e.currentTarget.value as Theme)}
+          on:change={(e) => settings.setTheme(e.currentTarget.value)}
         >
           {#each themes as t}
             <option value={t.value}>{t.label}</option>
@@ -78,7 +78,7 @@
         <select
           class="toolbar__select"
           value={$settings.fontSize}
-          on:change={(e) => settings.setFontSize(e.currentTarget.value as FontSize)}
+          on:change={(e) => settings.setFontSize(e.currentTarget.value)}
         >
           {#each fontSizes as f}
             <option value={f.value}>{f.label}</option>
