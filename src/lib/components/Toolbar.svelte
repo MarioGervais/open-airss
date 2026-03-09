@@ -105,7 +105,7 @@
 <!-- Fermer le dropdown en cliquant ailleurs -->
 {#if showSettings}
   <div
-    class="toolbar__overlay"
+    class="toolbar__overlay" style="pointer-events: none;"
     role="presentation"
     on:click={() => (showSettings = false)}
     on:keydown={(e) => e.key === 'Escape' && (showSettings = false)}
