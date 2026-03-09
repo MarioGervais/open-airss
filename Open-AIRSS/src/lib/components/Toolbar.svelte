@@ -1,0 +1,247 @@
+<script lang="ts">
+  // src/lib/components/Toolbar.svelte
+
+  import { createEventDispatcher } from 'svelte';
+  import { settings } from '$lib/stores/settings';
+  import type { Theme, FontSize } from '$lib/stores/settings';
+
+  const dispatch = createEventDispatcher<{ logout: void }>();
+
+  let showSettings = false;
+
+  const themes: { value: Theme; label: string }[] = [
+    { value: 'system',                label: 'System' },
+    { value: 'default-dark',          label: 'Default Dark' },
+    { value: 'catppuccin-mocha',      label: 'Catppuccin Mocha' },
+    { value: 'catppuccin-macchiato',  label: 'Catppuccin Macchiato' },
+    { value: 'nord',                  label: 'Nord' },
+    { value: 'catppuccin-latte',      label: 'Catppuccin Latte' },
+  ];
+
+  const fontSizes: { value: FontSize; label: string }[] = [
+    { value: 'small',  label: 'Small' },
+    { value: 'medium', label: 'Medium' },
+    { value: 'large',  label: 'Large' },
+  ];
+</script>
+
+<header class="toolbar">
+  <div class="toolbar__left">
+    <!-- intentionally empty — titre affiché dans FeedList -->
+  </div>
+
+  <div class="toolbar__right">
+    <button
+      class="toolbar__btn"
+      class:toolbar__btn--active={$settings.unreadOnly}
+      on:click={() => settings.toggleUnreadOnly()}
+      title="Show unread only"
+    >
+      Unread only
+    </button>
+
+    <button
+      class="toolbar__btn"
+      on:click={() => (showSettings = !showSettings)}
+      title="Settings"
+      aria-expanded={showSettings}
+    >
+      Settings
+    </button>
+
+    <button
+      class="toolbar__btn toolbar__btn--danger"
+      on:click={() => dispatch('logout')}
+      title="Disconnect"
+    >
+      Disconnect
+    </button>
+  </div>
+
+  {#if showSettings}
+    <div class="toolbar__dropdown" role="dialog" aria-label="Settings">
+      <div class="toolbar__setting">
+        <span class="toolbar__setting-label">Theme</span>
+        <select
+          class="toolbar__select"
+          value={$settings.theme}
+          on:change={(e) => settings.setTheme(e.currentTarget.value as Theme)}
+        >
+          {#each themes as t}
+            <option value={t.value}>{t.label}</option>
+          {/each}
+        </select>
+      </div>
+
+      <div class="toolbar__setting">
+        <span class="toolbar__setting-label">Font size</span>
+        <select
+          class="toolbar__select"
+          value={$settings.fontSize}
+          on:change={(e) => settings.setFontSize(e.currentTarget.value as FontSize)}
+        >
+          {#each fontSizes as f}
+            <option value={f.value}>{f.label}</option>
+          {/each}
+        </select>
+      </div>
+
+      <div class="toolbar__setting toolbar__setting--toggle">
+        <span class="toolbar__setting-label">Mark as read on open</span>
+        <button
+          class="toolbar__toggle"
+          class:toolbar__toggle--on={$settings.markReadOnOpen}
+          on:click={() => settings.toggleMarkReadOnOpen()}
+          role="switch"
+          aria-checked={$settings.markReadOnOpen}
+        >
+          <span class="toolbar__toggle-thumb" />
+        </button>
+      </div>
+    </div>
+  {/if}
+</header>
+
+<!-- Fermer le dropdown en cliquant ailleurs -->
+{#if showSettings}
+  <div
+    class="toolbar__overlay"
+    role="presentation"
+    on:click={() => (showSettings = false)}
+    on:keydown={(e) => e.key === 'Escape' && (showSettings = false)}
+  />
+{/if}
+
+<style>
+  .toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 44px;
+    padding: 0 1rem;
+    background: var(--color-sidebar-bg);
+    border-bottom: 1px solid var(--color-border);
+    position: relative;
+    z-index: 10;
+    flex-shrink: 0;
+  }
+
+  .toolbar__left,
+  .toolbar__right {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .toolbar__btn {
+    background: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    padding: 0.25rem 0.6rem;
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: color 0.1s, border-color 0.1s;
+  }
+
+  .toolbar__btn:hover {
+    color: var(--color-text);
+    border-color: var(--color-border);
+  }
+
+  .toolbar__btn--active {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+
+  .toolbar__btn--danger:hover {
+    color: #f38ba8;
+    border-color: #f38ba8;
+  }
+
+  /* Dropdown settings */
+  .toolbar__dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 1rem;
+    background: var(--color-sidebar-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    padding: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    min-width: 240px;
+    z-index: 20;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  }
+
+  .toolbar__setting {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .toolbar__setting-label {
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+  }
+
+  .toolbar__select {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8125rem;
+    color: var(--color-text);
+    font-family: inherit;
+    cursor: pointer;
+  }
+
+  .toolbar__select:focus {
+    outline: none;
+    border-color: var(--color-accent);
+  }
+
+  /* Toggle switch */
+  .toolbar__toggle {
+    position: relative;
+    width: 36px;
+    height: 20px;
+    background: var(--color-border);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.2s;
+    flex-shrink: 0;
+    padding: 0;
+  }
+
+  .toolbar__toggle--on {
+    background: var(--color-accent);
+  }
+
+  .toolbar__toggle-thumb {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 14px;
+    height: 14px;
+    background: white;
+    border-radius: 50%;
+    transition: transform 0.2s;
+    display: block;
+  }
+
+  .toolbar__toggle--on .toolbar__toggle-thumb {
+    transform: translateX(16px);
+  }
+
+  .toolbar__overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 15;
+  }
+</style>

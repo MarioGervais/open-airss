@@ -1,0 +1,228 @@
+/* src/app.css */
+
+/* =========================================================================
+   Fonts
+   ========================================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* =========================================================================
+   Base reset
+   ========================================================================= */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  height: 100%;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  height: 100%;
+  font-family: 'Inter', system-ui, sans-serif;
+  line-height: 1.5;
+  color: var(--color-text);
+  background: var(--color-content-bg);
+}
+
+button {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+}
+
+/* =========================================================================
+   Theme: Default Dark  (inspiré du thème par défaut de Feishin)
+   ========================================================================= */
+
+[data-theme="default-dark"],
+:root {
+  color-scheme: dark;
+
+  --color-bg:             #17181c;
+  --color-sidebar-bg:     #1f2025;
+  --color-list-bg:        #1c1d22;
+  --color-content-bg:     #17181c;
+
+  --color-sidebar-hover:  #2a2b32;
+  --color-sidebar-active: #25262e;
+  --color-list-hover:     #22232a;
+  --color-list-active:    #25262e;
+
+  --color-border:         #2e2f38;
+
+  --color-text:           #e4e4ef;
+  --color-text-muted:     #6e6f80;
+
+  --color-accent:         #c4a8e0;   /* mauve doux */
+  --color-accent-hover:   #d4baf0;
+
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+/* =========================================================================
+   Theme: Catppuccin Mocha
+   ========================================================================= */
+
+[data-theme="catppuccin-mocha"] {
+  color-scheme: dark;
+
+  --color-bg:             #1e1e2e;
+  --color-sidebar-bg:     #181825;
+  --color-list-bg:        #1e1e2e;
+  --color-content-bg:     #1e1e2e;
+
+  --color-sidebar-hover:  #313244;
+  --color-sidebar-active: #2a2b3d;
+  --color-list-hover:     #28283d;
+  --color-list-active:    #313244;
+
+  --color-border:         #313244;
+
+  --color-text:           #cdd6f4;
+  --color-text-muted:     #6c7086;
+
+  --color-accent:         #cba6f7;   /* mauve catppuccin */
+  --color-accent-hover:   #d8b4fe;
+}
+
+/* =========================================================================
+   Theme: Catppuccin Macchiato
+   ========================================================================= */
+
+[data-theme="catppuccin-macchiato"] {
+  color-scheme: dark;
+
+  --color-bg:             #24273a;
+  --color-sidebar-bg:     #1e2030;
+  --color-list-bg:        #24273a;
+  --color-content-bg:     #24273a;
+
+  --color-sidebar-hover:  #363a4f;
+  --color-sidebar-active: #2e3147;
+  --color-list-hover:     #2e3147;
+  --color-list-active:    #363a4f;
+
+  --color-border:         #363a4f;
+
+  --color-text:           #cad3f5;
+  --color-text-muted:     #6e738d;
+
+  --color-accent:         #c6a0f6;
+  --color-accent-hover:   #d5b4fe;
+}
+
+/* =========================================================================
+   Theme: Nord
+   ========================================================================= */
+
+[data-theme="nord"] {
+  color-scheme: dark;
+
+  --color-bg:             #2e3440;
+  --color-sidebar-bg:     #272c36;
+  --color-list-bg:        #2e3440;
+  --color-content-bg:     #2e3440;
+
+  --color-sidebar-hover:  #3b4252;
+  --color-sidebar-active: #353c4a;
+  --color-list-hover:     #353c4a;
+  --color-list-active:    #3b4252;
+
+  --color-border:         #3b4252;
+
+  --color-text:           #eceff4;
+  --color-text-muted:     #616e88;
+
+  --color-accent:         #88c0d0;   /* frost bleu */
+  --color-accent-hover:   #9ecfdf;
+}
+
+/* =========================================================================
+   Theme: Catppuccin Latte  (thème clair)
+   ========================================================================= */
+
+[data-theme="catppuccin-latte"] {
+  color-scheme: light;
+
+  --color-bg:             #eff1f5;
+  --color-sidebar-bg:     #e6e9ef;
+  --color-list-bg:        #eff1f5;
+  --color-content-bg:     #eff1f5;
+
+  --color-sidebar-hover:  #dce0e8;
+  --color-sidebar-active: #d4d8e2;
+  --color-list-hover:     #e0e3ec;
+  --color-list-active:    #dce0e8;
+
+  --color-border:         #ccd0da;
+
+  --color-text:           #4c4f69;
+  --color-text-muted:     #8c8fa1;
+
+  --color-accent:         #8839ef;   /* mauve latte */
+  --color-accent-hover:   #7527d6;
+}
+
+/* =========================================================================
+   Font size variants
+   ========================================================================= */
+
+[data-font-size="small"]  { font-size: 14px; }
+[data-font-size="medium"] { font-size: 16px; }
+[data-font-size="large"]  { font-size: 18px; }
+
+/* =========================================================================
+   Scrollbar
+   ========================================================================= */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted);
+}
+
+/* =========================================================================
+   Focus visible
+   ========================================================================= */
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* =========================================================================
+   Selection
+   ========================================================================= */
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-bg);
+}
