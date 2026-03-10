@@ -6,6 +6,10 @@
 
   let expanded: Record<string, boolean> = {};
 
+  function handleFaviconError(e: Event) {
+    (e.currentTarget as HTMLImageElement).style.display = 'none';
+  }
+
   function toggleCategory(catId: string): void {
     expanded[catId] = !expanded[catId];
     expanded = { ...expanded }; // trigger reactivity
@@ -77,7 +81,7 @@
                         width="16"
                         height="16"
                         loading="lazy"
-                        on:error={(e) => { e.currentTarget.style.display = 'none'; }}
+                        on:error={handleFaviconError}
                       />
                     </span>
                     <span class="feed-list__label">{feed.title}</span>
