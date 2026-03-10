@@ -1,7 +1,7 @@
 // src/lib/stores/feeds.ts
 
 import { writable, derived } from 'svelte/store';
-import type { Category, Feed } from '$lib/api/types';
+import type { Category } from '$lib/api/types';
 
 // -------------------------------------------------------------------------
 // State

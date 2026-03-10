@@ -8,7 +8,7 @@
 
   function toggleCategory(catId: string): void {
     expanded[catId] = !expanded[catId];
-    expanded = expanded; // trigger reactivity
+    expanded = { ...expanded }; // trigger reactivity
   }
 
   function handleFeedClick(feedId: string): void {
