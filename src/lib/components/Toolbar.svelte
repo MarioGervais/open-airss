@@ -1,6 +1,7 @@
 <script lang="ts">
   // src/lib/components/Toolbar.svelte
 
+  import { onDestroy } from 'svelte';
   import { createEventDispatcher } from 'svelte';
   import { settings } from '$lib/stores/settings';
   import type { Theme, FontSize } from '$lib/stores/settings';
@@ -8,6 +9,23 @@
   const dispatch = createEventDispatcher<{ logout: void }>();
 
   let showSettings = false;
+  let dropdownEl: HTMLDivElement;
+  let settingsBtnEl: HTMLButtonElement;
+
+  const themes: { value: Theme; label: string }[] = [
+    { value: 'system', label: 'System' },
+    { value: 'default-dark', label: 'Default Dark' },
+    { value: 'catppuccin-mocha', label: 'Catppuccin Mocha' },
+    { value: 'catppuccin-macchiato', label: 'Catppuccin Macchiato' },
+    { value: 'nord', label: 'Nord' },
+    { value: 'catppuccin-latte', label: 'Catppuccin Latte' },
+  ];
+
+  const fontSizes: { value: FontSize; label: string }[] = [
+    { value: 'small', label: 'Small' },
+    { value: 'medium', label: 'Medium' },
+    { value: 'large', label: 'Large' },
+  ];
 
   function handleThemeChange(e: Event) {
     const value = (e.currentTarget as HTMLSelectElement).value as Theme;
@@ -19,20 +37,31 @@
     settings.setFontSize(value);
   }
 
-  const themes: { value: Theme; label: string }[] = [
-    { value: 'system',                label: 'System' },
-    { value: 'default-dark',          label: 'Default Dark' },
-    { value: 'catppuccin-mocha',      label: 'Catppuccin Mocha' },
-    { value: 'catppuccin-macchiato',  label: 'Catppuccin Macchiato' },
-    { value: 'nord',                  label: 'Nord' },
-    { value: 'catppuccin-latte',      label: 'Catppuccin Latte' },
-  ];
+  function handleClickOutside(e: MouseEvent) {
+    if (!showSettings) return;
+    const target = e.target as Node;
+    if (dropdownEl && !dropdownEl.contains(target) && settingsBtnEl && !settingsBtnEl.contains(target)) {
+      showSettings = false;
+    }
+  }
 
-  const fontSizes: { value: FontSize; label: string }[] = [
-    { value: 'small',  label: 'Small' },
-    { value: 'medium', label: 'Medium' },
-    { value: 'large',  label: 'Large' },
-  ];
+  function handleKeydown(e: KeyboardEvent) {
+    if (e.key === 'Escape') showSettings = false;
+  }
+
+  // Attach/detach listeners when showSettings changes
+  $: if (showSettings) {
+    document.addEventListener('click', handleClickOutside);
+    document.addEventListener('keydown', handleKeydown);
+  } else {
+    document.removeEventListener('click', handleClickOutside);
+    document.removeEventListener('keydown', handleKeydown);
+  }
+
+  onDestroy(() => {
+    document.removeEventListener('click', handleClickOutside);
+    document.removeEventListener('keydown', handleKeydown);
+  });
 </script>
 
 <header class="toolbar">
@@ -51,6 +80,7 @@
     </button>
 
     <button
+      bind:this={settingsBtnEl}
       class="toolbar__btn"
       on:click={() => (showSettings = !showSettings)}
       title="Settings"
@@ -69,14 +99,10 @@
   </div>
 
   {#if showSettings}
-    <div class="toolbar__dropdown" role="dialog" aria-label="Settings">
+    <div bind:this={dropdownEl} class="toolbar__dropdown" role="dialog" aria-label="Settings">
       <div class="toolbar__setting">
         <span class="toolbar__setting-label">Theme</span>
-        <select
-          class="toolbar__select"
-          value={$settings.theme}
-          on:change={handleThemeChange}
-        >
+        <select class="toolbar__select" value={$settings.theme} on:change={handleThemeChange}>
           {#each themes as t}
             <option value={t.value}>{t.label}</option>
           {/each}
@@ -85,11 +111,7 @@
 
       <div class="toolbar__setting">
         <span class="toolbar__setting-label">Font size</span>
-        <select
-          class="toolbar__select"
-          value={$settings.fontSize}
-          on:change={handleFontSizeChange}
-        >
+        <select class="toolbar__select" value={$settings.fontSize} on:change={handleFontSizeChange}>
           {#each fontSizes as f}
             <option value={f.value}>{f.label}</option>
           {/each}
@@ -111,16 +133,6 @@
     </div>
   {/if}
 </header>
-
-<!-- Fermer le dropdown en cliquant ailleurs -->
-{#if showSettings}
-  <div
-    class="toolbar__overlay"
-    role="presentation"
-    on:click={() => (showSettings = false)}
-    on:keydown={(e) => e.key === 'Escape' && (showSettings = false)}
-  />
-{/if}
 
 <style>
   .toolbar {
@@ -247,11 +259,5 @@
 
   .toolbar__toggle--on .toolbar__toggle-thumb {
     transform: translateX(16px);
-  }
-
-  .toolbar__overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 15;
   }
 </style>
