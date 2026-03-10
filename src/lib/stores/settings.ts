@@ -7,7 +7,13 @@ import { browser } from "$app/environment";
 // Types
 // -------------------------------------------------------------------------
 
-export type Theme = "light" | "dark" | "system";
+export type Theme =
+  | "system"
+  | "default-dark"
+  | "catppuccin-mocha"
+  | "catppuccin-macchiato"
+  | "nord"
+  | "catppuccin-latte";
 export type FontSize = "small" | "medium" | "large";
 
 export interface Settings {
