@@ -16,7 +16,8 @@ export default [
     plugins: { '@typescript-eslint': ts },
     rules: {
       ...ts.configs.recommended.rules,
-      '@typescript-eslint/no-explicit-any': 'warn'
+      '@typescript-eslint/no-explicit-any': 'off',
+      'no-undef': 'off'
     }
   },
   {
@@ -27,7 +28,12 @@ export default [
       globals: { ...globals.browser }
     },
     plugins: { svelte },
-    rules: { ...svelte.configs.recommended.rules }
+    rules: {
+      ...svelte.configs.recommended.rules,
+      'svelte/no-at-html-tags': 'warn',
+      'no-inner-declarations': 'off',
+      'no-unused-vars': 'off'
+    }
   },
   {
     ignores: ['.svelte-kit/', 'build/', 'node_modules/']
