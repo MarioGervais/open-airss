@@ -9,6 +9,16 @@
 
   let showSettings = false;
 
+  function handleThemeChange(e: Event) {
+    const value = (e.currentTarget as HTMLSelectElement).value as Theme;
+    settings.setTheme(value);
+  }
+
+  function handleFontSizeChange(e: Event) {
+    const value = (e.currentTarget as HTMLSelectElement).value as FontSize;
+    settings.setFontSize(value);
+  }
+
   const themes: { value: Theme; label: string }[] = [
     { value: 'system',                label: 'System' },
     { value: 'default-dark',          label: 'Default Dark' },
@@ -65,7 +75,7 @@
         <select
           class="toolbar__select"
           value={$settings.theme}
-          on:change={(e) => settings.setTheme(e.currentTarget.value as Theme)}
+          on:change={handleThemeChange}
         >
           {#each themes as t}
             <option value={t.value}>{t.label}</option>
@@ -78,7 +88,7 @@
         <select
           class="toolbar__select"
           value={$settings.fontSize}
-          on:change={(e) => settings.setFontSize(e.currentTarget.value as FontSize)}
+          on:change={handleFontSizeChange}
         >
           {#each fontSizes as f}
             <option value={f.value}>{f.label}</option>
