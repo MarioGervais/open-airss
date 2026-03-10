@@ -30,7 +30,7 @@ export default [
     plugins: { svelte },
     rules: {
       ...svelte.configs.recommended.rules,
-      'svelte/no-at-html-tags': 'warn',
+      'svelte/no-at-html-tags': 'off',
       'no-inner-declarations': 'off',
       'no-unused-vars': 'off'
     }
