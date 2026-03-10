@@ -1,14 +1,14 @@
 // src/lib/stores/settings.ts
 
-import { writable } from 'svelte/store';
-import { browser } from '$app/environment';
+import { writable } from "svelte/store";
+import { browser } from "$app/environment";
 
 // -------------------------------------------------------------------------
 // Types
 // -------------------------------------------------------------------------
 
-export type Theme = 'light' | 'dark' | 'system';
-export type FontSize = 'small' | 'medium' | 'large';
+export type Theme = "light" | "dark" | "system";
+export type FontSize = "small" | "medium" | "large";
 
 export interface Settings {
   theme: Theme;
@@ -22,8 +22,8 @@ export interface Settings {
 // -------------------------------------------------------------------------
 
 const defaults: Settings = {
-  theme: 'system',
-  fontSize: 'medium',
+  theme: "system",
+  fontSize: "medium",
   unreadOnly: false,
   markReadOnOpen: true,
 };
@@ -35,7 +35,7 @@ const defaults: Settings = {
 function loadSettings(): Settings {
   if (!browser) return defaults;
   try {
-    const stored = localStorage.getItem('open-airss:settings');
+    const stored = localStorage.getItem("open-airss:settings");
     return stored ? { ...defaults, ...JSON.parse(stored) } : defaults;
   } catch {
     return defaults;
@@ -45,7 +45,7 @@ function loadSettings(): Settings {
 function saveSettings(s: Settings): void {
   if (!browser) return;
   try {
-    localStorage.setItem('open-airss:settings', JSON.stringify(s));
+    localStorage.setItem("open-airss:settings", JSON.stringify(s));
   } catch {
     // storage unavailable — fail silently
   }

@@ -1,7 +1,7 @@
 // src/lib/stores/feeds.ts
 
-import { writable, derived } from 'svelte/store';
-import type { Category } from '$lib/api/types';
+import { writable, derived } from "svelte/store";
+import type { Category } from "$lib/api/types";
 
 // -------------------------------------------------------------------------
 // State
@@ -19,8 +19,8 @@ export const feedsError = writable<string | null>(null);
 export const totalUnread = derived(categories, ($categories) =>
   $categories.reduce(
     (sum, cat) => sum + cat.feeds.reduce((s, f) => s + f.unreadCount, 0),
-    0
-  )
+    0,
+  ),
 );
 
 export const selectedFeed = derived(
@@ -32,7 +32,7 @@ export const selectedFeed = derived(
       if (feed) return feed;
     }
     return null;
-  }
+  },
 );
 
 // -------------------------------------------------------------------------
@@ -54,9 +54,9 @@ export function decrementUnread(feedId: string, by = 1): void {
       feeds: cat.feeds.map((feed) =>
         feed.id === feedId
           ? { ...feed, unreadCount: Math.max(0, feed.unreadCount - by) }
-          : feed
+          : feed,
       ),
-    }))
+    })),
   );
 }
 
@@ -65,8 +65,8 @@ export function resetUnread(feedId: string): void {
     cats.map((cat) => ({
       ...cat,
       feeds: cat.feeds.map((feed) =>
-        feed.id === feedId ? { ...feed, unreadCount: 0 } : feed
+        feed.id === feedId ? { ...feed, unreadCount: 0 } : feed,
       ),
-    }))
+    })),
   );
 }

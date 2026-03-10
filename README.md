@@ -19,7 +19,7 @@ Open-AIRSS is an open-source web frontend for RSS aggregators that support the G
 
 ## Screenshots
 
-*Coming soon.*
+_Coming soon._
 
 ---
 
@@ -59,7 +59,7 @@ PUBLIC_API_URL=https://your-freshrss-instance.example.com
 ## Compatible Backends
 
 | Backend        | API                    | Status    |
-|----------------|------------------------|-----------|
+| -------------- | ---------------------- | --------- |
 | FreshRSS       | Google Reader          | Supported |
 | Miniflux       | Google Reader          | Supported |
 | Nextcloud News | Google Reader          | Supported |

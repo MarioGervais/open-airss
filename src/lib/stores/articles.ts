@@ -1,7 +1,7 @@
 // src/lib/stores/articles.ts
 
-import { writable, derived } from 'svelte/store';
-import type { Article } from '$lib/api/types';
+import { writable, derived } from "svelte/store";
+import type { Article } from "$lib/api/types";
 
 // -------------------------------------------------------------------------
 // State
@@ -21,12 +21,12 @@ export const continuation = writable<string | undefined>(undefined);
 export const selectedArticle = derived(
   [articles, selectedArticleId],
   ([$articles, $selectedArticleId]) =>
-    $articles.find((a) => a.id === $selectedArticleId) ?? null
+    $articles.find((a) => a.id === $selectedArticleId) ?? null,
 );
 
 export const hasMore = derived(
   continuation,
-  ($continuation) => $continuation !== undefined
+  ($continuation) => $continuation !== undefined,
 );
 
 // -------------------------------------------------------------------------
@@ -50,21 +50,21 @@ export function selectArticle(articleId: string | null): void {
 
 export function markArticleRead(articleId: string): void {
   articles.update((list) =>
-    list.map((a) => (a.id === articleId ? { ...a, isRead: true } : a))
+    list.map((a) => (a.id === articleId ? { ...a, isRead: true } : a)),
   );
 }
 
 export function markArticleUnread(articleId: string): void {
   articles.update((list) =>
-    list.map((a) => (a.id === articleId ? { ...a, isRead: false } : a))
+    list.map((a) => (a.id === articleId ? { ...a, isRead: false } : a)),
   );
 }
 
 export function toggleArticleStar(articleId: string): void {
   articles.update((list) =>
     list.map((a) =>
-      a.id === articleId ? { ...a, isStarred: !a.isStarred } : a
-    )
+      a.id === articleId ? { ...a, isStarred: !a.isStarred } : a,
+    ),
   );
 }
 

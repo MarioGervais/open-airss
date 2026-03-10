@@ -104,12 +104,12 @@ Types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`
 
 ## Branch Naming
 
-| Type       | Pattern                     |
-|------------|-----------------------------|
-| Feature    | `feat/short-description`    |
-| Bug fix    | `fix/short-description`     |
-| Docs       | `docs/short-description`    |
-| Refactor   | `refactor/short-description`|
+| Type     | Pattern                      |
+| -------- | ---------------------------- |
+| Feature  | `feat/short-description`     |
+| Bug fix  | `fix/short-description`      |
+| Docs     | `docs/short-description`     |
+| Refactor | `refactor/short-description` |
 
 ---
 

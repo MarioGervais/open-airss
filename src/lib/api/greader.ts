@@ -7,9 +7,9 @@ import type {
   Article,
   ArticleList,
   StreamId,
-} from './types';
+} from "./types";
 
-const GOOGLE_READER_PATH = '/api/greader.php';
+const GOOGLE_READER_PATH = "/api/greader.php";
 
 export class GReaderClient {
   private url: string;
@@ -18,7 +18,7 @@ export class GReaderClient {
   private token: string | null = null;
 
   constructor(credentials: Credentials) {
-    this.url = credentials.url.replace(/\/$/, '');
+    this.url = credentials.url.replace(/\/$/, "");
     this.username = credentials.username;
     this.password = credentials.password;
   }
@@ -28,14 +28,17 @@ export class GReaderClient {
   // -------------------------------------------------------------------------
 
   async login(): Promise<void> {
-    const res = await fetch(`${this.url}${GOOGLE_READER_PATH}/accounts/ClientLogin`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams({
-        Email: this.username,
-        Passwd: this.password,
-      }),
-    });
+    const res = await fetch(
+      `${this.url}${GOOGLE_READER_PATH}/accounts/ClientLogin`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          Email: this.username,
+          Passwd: this.password,
+        }),
+      },
+    );
 
     if (!res.ok) {
       throw new Error(`Authentication failed: ${res.status}`);
@@ -45,14 +48,14 @@ export class GReaderClient {
     const match = text.match(/^Auth=(.+)$/m);
 
     if (!match) {
-      throw new Error('Authentication token not found in response');
+      throw new Error("Authentication token not found in response");
     }
 
     this.token = match[1];
   }
 
   private authHeaders(): HeadersInit {
-    if (!this.token) throw new Error('Not authenticated — call login() first');
+    if (!this.token) throw new Error("Not authenticated — call login() first");
     return { Authorization: `GoogleLogin auth=${this.token}` };
   }
 
@@ -62,8 +65,8 @@ export class GReaderClient {
 
   async getSubscriptions(): Promise<Category[]> {
     const [subsRes, countsRes] = await Promise.all([
-      this.get('/reader/api/0/subscription/list?output=json'),
-      this.get('/reader/api/0/unread-count?output=json'),
+      this.get("/reader/api/0/subscription/list?output=json"),
+      this.get("/reader/api/0/unread-count?output=json"),
     ]);
 
     const subs = await subsRes.json();
@@ -81,20 +84,20 @@ export class GReaderClient {
         id: sub.id,
         title: sub.title,
         url: sub.url,
-        htmlUrl: sub.htmlUrl ?? '',
+        htmlUrl: sub.htmlUrl ?? "",
         unreadCount: unreadMap.get(sub.id) ?? 0,
       };
 
       const cats: Array<{ id: string; label: string }> = sub.categories ?? [];
 
       if (cats.length === 0) {
-        const uncategorized = categoryMap.get('uncategorized') ?? {
-          id: 'uncategorized',
-          label: 'Uncategorized',
+        const uncategorized = categoryMap.get("uncategorized") ?? {
+          id: "uncategorized",
+          label: "Uncategorized",
           feeds: [],
         };
         uncategorized.feeds.push(feed);
-        categoryMap.set('uncategorized', uncategorized);
+        categoryMap.set("uncategorized", uncategorized);
       } else {
         for (const cat of cats) {
           const existing = categoryMap.get(cat.id) ?? {
@@ -121,41 +124,44 @@ export class GReaderClient {
       count?: number;
       continuation?: string;
       unreadOnly?: boolean;
-    } = {}
+    } = {},
   ): Promise<ArticleList> {
     const params = new URLSearchParams({
-      output: 'json',
+      output: "json",
       n: String(options.count ?? 20),
     });
 
-    if (options.continuation) params.set('c', options.continuation);
-    if (options.unreadOnly) params.append('xt', 'user/-/state/com.google/read');
+    if (options.continuation) params.set("c", options.continuation);
+    if (options.unreadOnly) params.append("xt", "user/-/state/com.google/read");
 
-    const streamId = stream === 'reading-list'
-      ? 'user/-/state/com.google/reading-list'
-      : stream === 'starred'
-      ? 'user/-/state/com.google/starred'
-      : stream === 'unread'
-      ? 'user/-/state/com.google/reading-list'
-      : `feed/${stream.replace(/^feed\//, '')}`;
+    const streamId =
+      stream === "reading-list"
+        ? "user/-/state/com.google/reading-list"
+        : stream === "starred"
+          ? "user/-/state/com.google/starred"
+          : stream === "unread"
+            ? "user/-/state/com.google/reading-list"
+            : `feed/${stream.replace(/^feed\//, "")}`;
 
     const res = await this.get(
-      `/reader/api/0/stream/contents/${encodeURIComponent(streamId)}?${params}`
+      `/reader/api/0/stream/contents/${encodeURIComponent(streamId)}?${params}`,
     );
     const data = await res.json();
 
     const articles: Article[] = (data.items ?? []).map((item: any) => ({
       id: item.id,
-      title: item.title ?? '(no title)',
-      summary: item.summary?.content ?? '',
-      content: item.content?.content ?? item.summary?.content ?? '',
-      author: item.author ?? '',
+      title: item.title ?? "(no title)",
+      summary: item.summary?.content ?? "",
+      content: item.content?.content ?? item.summary?.content ?? "",
+      author: item.author ?? "",
       published: item.published ?? 0,
-      url: item.alternate?.[0]?.href ?? '',
-      feedId: item.origin?.streamId ?? '',
-      feedTitle: item.origin?.title ?? '',
-      isRead: (item.categories ?? []).includes('user/-/state/com.google/read'),
-      isStarred: (item.categories ?? []).includes('user/-/state/com.google/starred'),
+      url: item.alternate?.[0]?.href ?? "",
+      feedId: item.origin?.streamId ?? "",
+      feedTitle: item.origin?.title ?? "",
+      isRead: (item.categories ?? []).includes("user/-/state/com.google/read"),
+      isStarred: (item.categories ?? []).includes(
+        "user/-/state/com.google/starred",
+      ),
     }));
 
     return {
@@ -169,24 +175,24 @@ export class GReaderClient {
   // -------------------------------------------------------------------------
 
   async markAsRead(articleId: string): Promise<void> {
-    await this.editTag(articleId, 'user/-/state/com.google/read', 'add');
+    await this.editTag(articleId, "user/-/state/com.google/read", "add");
   }
 
   async markAsUnread(articleId: string): Promise<void> {
-    await this.editTag(articleId, 'user/-/state/com.google/read', 'remove');
+    await this.editTag(articleId, "user/-/state/com.google/read", "remove");
   }
 
   async toggleStar(articleId: string, starred: boolean): Promise<void> {
     await this.editTag(
       articleId,
-      'user/-/state/com.google/starred',
-      starred ? 'add' : 'remove'
+      "user/-/state/com.google/starred",
+      starred ? "add" : "remove",
     );
   }
 
   async markAllAsRead(feedId: string, before: number): Promise<void> {
     const actionToken = await this.getActionToken();
-    await this.post('/reader/api/0/mark-all-as-read', {
+    await this.post("/reader/api/0/mark-all-as-read", {
       s: feedId,
       ts: String(before * 1_000_000), // microseconds
       T: actionToken,
@@ -205,12 +211,15 @@ export class GReaderClient {
     return res;
   }
 
-  private async post(path: string, body: Record<string, string>): Promise<void> {
+  private async post(
+    path: string,
+    body: Record<string, string>,
+  ): Promise<void> {
     const res = await fetch(`${this.url}${GOOGLE_READER_PATH}${path}`, {
-      method: 'POST',
+      method: "POST",
       headers: {
         ...this.authHeaders(),
-        'Content-Type': 'application/x-www-form-urlencoded',
+        "Content-Type": "application/x-www-form-urlencoded",
       },
       body: new URLSearchParams(body),
     });
@@ -220,18 +229,18 @@ export class GReaderClient {
   private async editTag(
     articleId: string,
     tag: string,
-    action: 'add' | 'remove'
+    action: "add" | "remove",
   ): Promise<void> {
     const actionToken = await this.getActionToken();
-    await this.post('/reader/api/0/edit-tag', {
+    await this.post("/reader/api/0/edit-tag", {
       i: articleId,
-      [action === 'add' ? 'a' : 'r']: tag,
+      [action === "add" ? "a" : "r"]: tag,
       T: actionToken,
     });
   }
 
   private async getActionToken(): Promise<string> {
-    const res = await this.get('/reader/api/0/token');
+    const res = await this.get("/reader/api/0/token");
     return res.text();
   }
 }
