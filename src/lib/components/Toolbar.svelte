@@ -3,6 +3,7 @@
 
   import { onDestroy } from 'svelte';
   import { createEventDispatcher } from 'svelte';
+  import { browser } from '$app/environment';
   import { settings } from '$lib/stores/settings';
   import type { Theme, FontSize } from '$lib/stores/settings';
 
@@ -50,12 +51,14 @@
   }
 
   // Attach/detach listeners when showSettings changes
-  $: if (showSettings) {
-    document.addEventListener('click', handleClickOutside);
-    document.addEventListener('keydown', handleKeydown);
-  } else {
-    document.removeEventListener('click', handleClickOutside);
-    document.removeEventListener('keydown', handleKeydown);
+  $: if (browser) {
+    if (showSettings) {
+      document.addEventListener('click', handleClickOutside);
+      document.addEventListener('keydown', handleKeydown);
+    } else {
+      document.removeEventListener('click', handleClickOutside);
+      document.removeEventListener('keydown', handleKeydown);
+    }
   }
 
   onDestroy(() => {
