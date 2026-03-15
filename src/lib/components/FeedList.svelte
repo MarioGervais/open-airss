@@ -25,17 +25,6 @@
 </script>
 
 <nav class="feed-list" class:unread-only={$settings.unreadOnly}>
-  <div class="feed-list__header">
-    <div class="feed-list__brand">
-      <svg class="feed-list__logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <circle cx="4" cy="20" r="2.5" fill="currentColor"/>
-        <path d="M4 13.5C8.14 13.5 11.5 16.86 11.5 21" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-        <path d="M4 7.5C10.5 5.5 18 9.5 20.5 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-      </svg>
-      <span class="feed-list__app-name">Open-AIRSS</span>
-    </div>
-  </div>
-
   <ul class="feed-list__items">
     <!-- All articles -->
     <li class="feed-list__item feed-list__item--all">
@@ -116,32 +105,6 @@
     border-right: 1px solid var(--color-border);
     font-size: 0.875rem;
     user-select: none;
-  }
-
-  .feed-list__header {
-    padding: 1.25rem 1rem 0.75rem;
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  .feed-list__brand {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .feed-list__logo {
-    width: 18px;
-    height: 18px;
-    color: var(--color-accent);
-    flex-shrink: 0;
-  }
-
-  .feed-list__app-name {
-    font-weight: 700;
-    font-size: 0.8125rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--color-text-muted);
   }
 
   .feed-list__items {

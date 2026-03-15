@@ -88,7 +88,12 @@
 
 <header class="toolbar">
   <div class="toolbar__left">
-    <!-- intentionally empty — titre affiché dans FeedList -->
+    <svg class="toolbar__logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <circle cx="4" cy="20" r="2.5" fill="currentColor"/>
+      <path d="M4 13.5C8.14 13.5 11.5 16.86 11.5 21" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M4 7.5C10.5 5.5 18 9.5 20.5 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+    <span class="toolbar__app-name">Open-AIRSS</span>
   </div>
 
   <div class="toolbar__right">
@@ -184,6 +189,21 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
+  }
+
+  .toolbar__logo {
+    width: 18px;
+    height: 18px;
+    color: var(--color-accent);
+    flex-shrink: 0;
+  }
+
+  .toolbar__app-name {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
   }
 
   .toolbar__btn {
