@@ -1,9 +1,9 @@
 services:
   open-airss:
-    image: ghcr.io/your-username/open-airss:latest
-    # build: .   # uncomment to build locally instead
+    build: .
     ports:
       - "3000:3000"
     environment:
+      ORIGIN: http://localhost:3000
       PUBLIC_API_URL: ${PUBLIC_API_URL}
     restart: unless-stopped

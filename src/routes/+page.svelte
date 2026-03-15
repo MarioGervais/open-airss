@@ -3,9 +3,10 @@
 
   import { goto } from '$app/navigation';
   import { browser } from '$app/environment';
+  import { env } from '$env/dynamic/public';
   import { GReaderClient } from '$lib/api/greader';
 
-  let url = '';
+  let url = env.PUBLIC_API_URL ?? '';
   let username = '';
   let password = '';
   let error = '';
