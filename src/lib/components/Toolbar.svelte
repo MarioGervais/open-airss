@@ -62,6 +62,7 @@
   }
 
   onDestroy(() => {
+    if (!browser) return;
     document.removeEventListener('click', handleClickOutside);
     document.removeEventListener('keydown', handleKeydown);
   });
