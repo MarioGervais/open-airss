@@ -4,7 +4,7 @@
    Fonts
    ========================================================================= */
 
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Figtree:wght@400;500;600;700&family=Geist:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Nunito:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Raleway:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap");
 
 /* =========================================================================
    Base reset
@@ -27,7 +27,7 @@ html {
 
 body {
   height: 100%;
-  font-family: "Inter", system-ui, sans-serif;
+  font-family: var(--font-body, "Inter", system-ui, sans-serif);
   line-height: 1.5;
   color: var(--color-text);
   background: var(--color-content-bg);
@@ -45,39 +45,11 @@ a {
 }
 
 /* =========================================================================
-   Theme: Default Dark  (inspiré du thème par défaut de Feishin)
+   Theme: Catppuccin Mocha  (dark)
    ========================================================================= */
 
-[data-theme="default-dark"],
+[data-theme="catppuccin-mocha"],
 :root {
-  color-scheme: dark;
-
-  --color-bg: #17181c;
-  --color-sidebar-bg: #1f2025;
-  --color-list-bg: #1c1d22;
-  --color-content-bg: #17181c;
-
-  --color-sidebar-hover: #2a2b32;
-  --color-sidebar-active: #25262e;
-  --color-list-hover: #22232a;
-  --color-list-active: #25262e;
-
-  --color-border: #2e2f38;
-
-  --color-text: #e4e4ef;
-  --color-text-muted: #6e6f80;
-
-  --color-accent: #c4a8e0; /* mauve doux */
-  --color-accent-hover: #d4baf0;
-
-  --font-mono: "JetBrains Mono", "Fira Code", monospace;
-}
-
-/* =========================================================================
-   Theme: Catppuccin Mocha
-   ========================================================================= */
-
-[data-theme="catppuccin-mocha"] {
   color-scheme: dark;
 
   --color-bg: #1e1e2e;
@@ -95,64 +67,70 @@ a {
   --color-text: #cdd6f4;
   --color-text-muted: #6c7086;
 
-  --color-accent: #cba6f7; /* mauve catppuccin */
+  --color-accent: #cba6f7;
   --color-accent-hover: #d8b4fe;
+
+  --font-mono: "JetBrains Mono", "Fira Code", monospace;
 }
 
 /* =========================================================================
-   Theme: Catppuccin Macchiato
+   Theme: Tokyo Night  (dark)
    ========================================================================= */
 
-[data-theme="catppuccin-macchiato"] {
+[data-theme="tokyo-night"] {
   color-scheme: dark;
 
-  --color-bg: #24273a;
-  --color-sidebar-bg: #1e2030;
-  --color-list-bg: #24273a;
-  --color-content-bg: #24273a;
+  --color-bg: #1a1b26;
+  --color-sidebar-bg: #16161e;
+  --color-list-bg: #1a1b26;
+  --color-content-bg: #1a1b26;
 
-  --color-sidebar-hover: #363a4f;
-  --color-sidebar-active: #2e3147;
-  --color-list-hover: #2e3147;
-  --color-list-active: #363a4f;
+  --color-sidebar-hover: #1f2335;
+  --color-sidebar-active: #24283b;
+  --color-list-hover: #1f2335;
+  --color-list-active: #24283b;
 
-  --color-border: #363a4f;
+  --color-border: #292e42;
 
-  --color-text: #cad3f5;
-  --color-text-muted: #6e738d;
+  --color-text: #c0caf5;
+  --color-text-muted: #565f89;
 
-  --color-accent: #c6a0f6;
-  --color-accent-hover: #d5b4fe;
+  --color-accent: #7aa2f7;
+  --color-accent-hover: #89b4ff;
+
+  --font-mono: "JetBrains Mono", "Fira Code", monospace;
 }
 
 /* =========================================================================
-   Theme: Nord
+   Theme: Rosé Pine  (dark)
    ========================================================================= */
 
-[data-theme="nord"] {
+[data-theme="rose-pine"] {
   color-scheme: dark;
 
-  --color-bg: #2e3440;
-  --color-sidebar-bg: #272c36;
-  --color-list-bg: #2e3440;
-  --color-content-bg: #2e3440;
+  --color-bg: #191724;
+  --color-sidebar-bg: #1f1d2e;
+  --color-list-bg: #191724;
+  --color-content-bg: #191724;
 
-  --color-sidebar-hover: #3b4252;
-  --color-sidebar-active: #353c4a;
-  --color-list-hover: #353c4a;
-  --color-list-active: #3b4252;
+  --color-sidebar-hover: #26233a;
+  --color-sidebar-active: #2a2837;
+  --color-list-hover: #26233a;
+  --color-list-active: #2a2837;
 
-  --color-border: #3b4252;
+  --color-border: #26233a;
 
-  --color-text: #eceff4;
-  --color-text-muted: #616e88;
+  --color-text: #e0def4;
+  --color-text-muted: #6e6a86;
 
-  --color-accent: #88c0d0; /* frost bleu */
-  --color-accent-hover: #9ecfdf;
+  --color-accent: #c4a7e7;
+  --color-accent-hover: #d4b4f8;
+
+  --font-mono: "JetBrains Mono", "Fira Code", monospace;
 }
 
 /* =========================================================================
-   Theme: Catppuccin Latte  (thème clair)
+   Theme: Catppuccin Latte  (light)
    ========================================================================= */
 
 [data-theme="catppuccin-latte"] {
@@ -173,8 +151,66 @@ a {
   --color-text: #4c4f69;
   --color-text-muted: #8c8fa1;
 
-  --color-accent: #8839ef; /* mauve latte */
+  --color-accent: #8839ef;
   --color-accent-hover: #7527d6;
+
+  --font-mono: "JetBrains Mono", "Fira Code", monospace;
+}
+
+/* =========================================================================
+   Theme: One Light  (light)
+   ========================================================================= */
+
+[data-theme="one-light"] {
+  color-scheme: light;
+
+  --color-bg: #fafafa;
+  --color-sidebar-bg: #f0f0f0;
+  --color-list-bg: #fafafa;
+  --color-content-bg: #fafafa;
+
+  --color-sidebar-hover: #e8e8e8;
+  --color-sidebar-active: #dcdcdc;
+  --color-list-hover: #f2f2f2;
+  --color-list-active: #e8e8e8;
+
+  --color-border: #d0d0d0;
+
+  --color-text: #383a42;
+  --color-text-muted: #a0a1a7;
+
+  --color-accent: #4078f2;
+  --color-accent-hover: #2060e0;
+
+  --font-mono: "JetBrains Mono", "Fira Code", monospace;
+}
+
+/* =========================================================================
+   Theme: Flexoki Light  (light)
+   ========================================================================= */
+
+[data-theme="flexoki-light"] {
+  color-scheme: light;
+
+  --color-bg: #fffcf0;
+  --color-sidebar-bg: #f2f0e5;
+  --color-list-bg: #fffcf0;
+  --color-content-bg: #fffcf0;
+
+  --color-sidebar-hover: #e8e6d9;
+  --color-sidebar-active: #dad8cc;
+  --color-list-hover: #f5f3e7;
+  --color-list-active: #e8e6d9;
+
+  --color-border: #cecdc3;
+
+  --color-text: #100f0f;
+  --color-text-muted: #6f6e69;
+
+  --color-accent: #24837b;
+  --color-accent-hover: #1d6b63;
+
+  --font-mono: "JetBrains Mono", "Fira Code", monospace;
 }
 
 /* =========================================================================

@@ -45,6 +45,13 @@
 <main class="login-page">
   <div class="login-card">
     <header class="login-card__header">
+      <div class="login-card__logo-wrap">
+        <svg class="login-card__logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="4" cy="20" r="2.5" fill="currentColor"/>
+          <path d="M4 13.5C8.14 13.5 11.5 16.86 11.5 21" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M4 7.5C10.5 5.5 18 9.5 20.5 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
       <h1 class="login-card__title">Open-AIRSS</h1>
       <p class="login-card__subtitle">Connect to your RSS server</p>
     </header>
@@ -135,6 +142,18 @@
   .login-card__header {
     margin-bottom: 1.75rem;
     text-align: center;
+  }
+
+  .login-card__logo-wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+
+  .login-card__logo {
+    width: 44px;
+    height: 44px;
+    color: var(--color-accent);
   }
 
   .login-card__title {

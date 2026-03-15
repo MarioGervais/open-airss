@@ -8,17 +8,31 @@ import { browser } from "$app/environment";
 // -------------------------------------------------------------------------
 
 export type Theme =
-  | "system"
-  | "default-dark"
   | "catppuccin-mocha"
-  | "catppuccin-macchiato"
-  | "nord"
-  | "catppuccin-latte";
+  | "tokyo-night"
+  | "rose-pine"
+  | "catppuccin-latte"
+  | "one-light"
+  | "flexoki-light";
+
 export type FontSize = "small" | "medium" | "large";
+
+export type FontFamily =
+  | "Inter"
+  | "Plus Jakarta Sans"
+  | "DM Sans"
+  | "Outfit"
+  | "Nunito"
+  | "Raleway"
+  | "IBM Plex Sans"
+  | "Source Sans 3"
+  | "Figtree"
+  | "Geist";
 
 export interface Settings {
   theme: Theme;
   fontSize: FontSize;
+  font: FontFamily;
   unreadOnly: boolean;
   markReadOnOpen: boolean;
 }
@@ -28,8 +42,9 @@ export interface Settings {
 // -------------------------------------------------------------------------
 
 const defaults: Settings = {
-  theme: "system",
+  theme: "catppuccin-mocha",
   fontSize: "medium",
+  font: "Inter",
   unreadOnly: false,
   markReadOnOpen: true,
 };
@@ -82,6 +97,9 @@ function createSettings() {
     },
     setFontSize(fontSize: FontSize) {
       this.update((s) => ({ ...s, fontSize }));
+    },
+    setFont(font: FontFamily) {
+      this.update((s) => ({ ...s, font }));
     },
     toggleUnreadOnly() {
       this.update((s) => ({ ...s, unreadOnly: !s.unreadOnly }));

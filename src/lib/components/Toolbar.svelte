@@ -5,7 +5,7 @@
   import { createEventDispatcher } from 'svelte';
   import { browser } from '$app/environment';
   import { settings } from '$lib/stores/settings';
-  import type { Theme, FontSize } from '$lib/stores/settings';
+  import type { Theme, FontSize, FontFamily } from '$lib/stores/settings';
 
   const dispatch = createEventDispatcher<{ logout: void }>();
 
@@ -14,12 +14,25 @@
   let settingsBtnEl: HTMLButtonElement;
 
   const themes: { value: Theme; label: string }[] = [
-    { value: 'system', label: 'System' },
-    { value: 'default-dark', label: 'Default Dark' },
-    { value: 'catppuccin-mocha', label: 'Catppuccin Mocha' },
-    { value: 'catppuccin-macchiato', label: 'Catppuccin Macchiato' },
-    { value: 'nord', label: 'Nord' },
-    { value: 'catppuccin-latte', label: 'Catppuccin Latte' },
+    { value: 'catppuccin-mocha',  label: 'Catppuccin Mocha' },
+    { value: 'tokyo-night',       label: 'Tokyo Night' },
+    { value: 'rose-pine',         label: 'Rosé Pine' },
+    { value: 'catppuccin-latte',  label: 'Catppuccin Latte' },
+    { value: 'one-light',         label: 'One Light' },
+    { value: 'flexoki-light',     label: 'Flexoki Light' },
+  ];
+
+  const fonts: { value: FontFamily; label: string }[] = [
+    { value: 'Inter',            label: 'Inter' },
+    { value: 'Plus Jakarta Sans', label: 'Plus Jakarta Sans' },
+    { value: 'DM Sans',          label: 'DM Sans' },
+    { value: 'Outfit',           label: 'Outfit' },
+    { value: 'Nunito',           label: 'Nunito' },
+    { value: 'Raleway',          label: 'Raleway' },
+    { value: 'IBM Plex Sans',    label: 'IBM Plex Sans' },
+    { value: 'Source Sans 3',    label: 'Source Sans 3' },
+    { value: 'Figtree',          label: 'Figtree' },
+    { value: 'Geist',            label: 'Geist' },
   ];
 
   const fontSizes: { value: FontSize; label: string }[] = [
@@ -36,6 +49,11 @@
   function handleFontSizeChange(e: Event) {
     const value = (e.currentTarget as HTMLSelectElement).value as FontSize;
     settings.setFontSize(value);
+  }
+
+  function handleFontChange(e: Event) {
+    const value = (e.currentTarget as HTMLSelectElement).value as FontFamily;
+    settings.setFont(value);
   }
 
   function handleClickOutside(e: MouseEvent) {
@@ -117,6 +135,15 @@
         <span class="toolbar__setting-label">Font size</span>
         <select class="toolbar__select" value={$settings.fontSize} on:change={handleFontSizeChange}>
           {#each fontSizes as f}
+            <option value={f.value}>{f.label}</option>
+          {/each}
+        </select>
+      </div>
+
+      <div class="toolbar__setting">
+        <span class="toolbar__setting-label">Font</span>
+        <select class="toolbar__select" value={$settings.font} on:change={handleFontChange}>
+          {#each fonts as f}
             <option value={f.value}>{f.label}</option>
           {/each}
         </select>
