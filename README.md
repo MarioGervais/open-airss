@@ -27,6 +27,7 @@ _Coming soon._
 ## Getting Started
 
 ### With Docker (recommended)
+
 ```bash
 git clone https://github.com/MarioGervais/open-airss.git
 cd open-airss
@@ -38,6 +39,7 @@ docker compose up --build -d
 Then open `http://localhost:3000` in your browser.
 
 ### Manual install
+
 ```bash
 npm install
 npm run dev
@@ -48,6 +50,7 @@ npm run dev
 ## Configuration
 
 Copy `.env.example` to `.env` and fill in the values:
+
 ```env
 PUBLIC_API_URL=https://your-freshrss-instance.example.com
 ```
@@ -95,8 +98,10 @@ You are free to use, modify, and distribute this software under the terms of the
 ## Acknowledgements
 
 Inspired by [Miniflux](https://miniflux.app/) and [Reminiflux](https://github.com/reminiflux/reminiflux).
+
 ```
 
 Tu peux coller ça directement à Claude Code :
 ```
+
 Replace the content of README.md with the following: [colle le texte]
