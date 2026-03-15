@@ -98,10 +98,3 @@ You are free to use, modify, and distribute this software under the terms of the
 ## Acknowledgements
 
 Inspired by [Miniflux](https://miniflux.app/) and [Reminiflux](https://github.com/reminiflux/reminiflux).
-
-```
-
-Tu peux coller ça directement à Claude Code :
-```
-
-Replace the content of README.md with the following: [colle le texte]
