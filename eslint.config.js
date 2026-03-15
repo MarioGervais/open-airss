@@ -36,6 +36,12 @@ export default [
     },
   },
   {
+    files: ["scripts/**/*.mjs"],
+    languageOptions: {
+      globals: { ...globals.node },
+    },
+  },
+  {
     ignores: [".svelte-kit/", "build/", "node_modules/"],
   },
 ];
