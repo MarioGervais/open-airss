@@ -1,15 +1,16 @@
 # Open-AIRSS
 
-> A minimalist, self-hostable RSS reader for the web.
+> A minimalist web frontend for self-hosted RSS aggregators.
 
-Open-AIRSS is an open-source web frontend for RSS aggregators that support the Google Reader API (FreshRSS, Miniflux, etc.). Clean interface, no tracking, no cloud, no nonsense.
+Open-AIRSS is an open-source reading interface for any RSS aggregator that supports the Google Reader API (FreshRSS, Miniflux, etc.). Clean interface, no tracking, no cloud, no nonsense.
 
 ---
 
 ## Features
 
 - Three-panel reading interface (feeds / articles / content)
-- Light and dark theme
+- 6 themes — 3 dark (Catppuccin Mocha, Tokyo Night, Rosé Pine) and 3 light (Catppuccin Latte, One Light, Flexoki Light)
+- 10 font choices, persistent across sessions
 - Full keyboard navigation
 - Compatible with any Google Reader API backend (FreshRSS, Miniflux, Nextcloud News...)
 - Docker-ready — one command to deploy
@@ -26,19 +27,17 @@ _Coming soon._
 ## Getting Started
 
 ### With Docker (recommended)
-
 ```bash
-git clone https://github.com/your-username/open-airss.git
+git clone https://github.com/MarioGervais/open-airss.git
 cd open-airss
 cp .env.example .env
 # Edit .env with your FreshRSS/Miniflux server URL
-docker compose up -d
+docker compose up --build -d
 ```
 
 Then open `http://localhost:3000` in your browser.
 
 ### Manual install
-
 ```bash
 npm install
 npm run dev
@@ -49,10 +48,11 @@ npm run dev
 ## Configuration
 
 Copy `.env.example` to `.env` and fill in the values:
-
 ```env
 PUBLIC_API_URL=https://your-freshrss-instance.example.com
 ```
+
+> **Note:** In the login form, use your FreshRSS **API password** — not your regular login password. You can find it under your FreshRSS profile settings.
 
 ---
 
@@ -71,7 +71,7 @@ PUBLIC_API_URL=https://your-freshrss-instance.example.com
 
 - [SvelteKit](https://kit.svelte.dev/) + TypeScript
 - CSS custom properties (no framework)
-- Docker + Nginx for production
+- Docker + Node.js for production
 
 ---
 
@@ -95,3 +95,8 @@ You are free to use, modify, and distribute this software under the terms of the
 ## Acknowledgements
 
 Inspired by [Miniflux](https://miniflux.app/) and [Reminiflux](https://github.com/reminiflux/reminiflux).
+```
+
+Tu peux coller ça directement à Claude Code :
+```
+Replace the content of README.md with the following: [colle le texte]
