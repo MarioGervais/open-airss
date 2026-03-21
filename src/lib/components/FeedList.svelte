@@ -60,13 +60,15 @@
           on:click={() => handleCategoryClick(category.id)}
           aria-expanded={isExpanded}
         >
-          <span
+          <button
+            type="button"
             class="feed-list__chevron"
             class:feed-list__chevron--open={isExpanded}
             on:click|stopPropagation={() => toggleCategory(category.id)}
+            aria-label={isExpanded ? 'Collapse category' : 'Expand category'}
           >
             ›
-          </span>
+          </button>
           <span class="feed-list__category-label">{category.label}</span>
           {#if catUnread > 0}
             <span class="feed-list__count">{catUnread}</span>
@@ -163,10 +165,18 @@
   }
 
   .feed-list__chevron {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     font-style: normal;
     transition: transform 0.15s ease;
     line-height: 1;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: inherit;
+    font-size: inherit;
   }
 
   .feed-list__chevron--open {
