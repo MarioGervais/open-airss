@@ -1,7 +1,7 @@
 <script lang="ts">
   // src/routes/reader/+page.svelte
 
-  import { onMount } from 'svelte';
+  import { onMount, onDestroy } from 'svelte';
   import { goto } from '$app/navigation';
   import { browser } from '$app/environment';
 
@@ -16,9 +16,12 @@
   import {
     setCategories,
     selectedFeedId,
+    incrementUnread,
     decrementUnread,
     resetUnread,
   } from '$lib/stores/feeds';
+
+  import { get } from 'svelte/store';
 
   import {
     setArticles,
@@ -28,6 +31,7 @@
     markArticleUnread,
     toggleArticleStar,
     markAllRead,
+    articles,
     selectedArticle,
     continuation,
     isLoadingArticles,
@@ -37,6 +41,9 @@
   import { settings } from '$lib/stores/settings';
 
   let client: GReaderClient | null = null;
+  let refreshInterval: ReturnType<typeof setInterval> | null = null;
+
+  const REFRESH_INTERVAL_MS = 15 * 60 * 1000; // 15 minutes
 
   // -------------------------------------------------------------------------
   // Init
@@ -62,6 +69,22 @@
       // Credentials invalides ou serveur inaccessible
       localStorage.removeItem('open-airss:credentials');
       await goto('/');
+      return;
+    }
+
+    refreshInterval = setInterval(async () => {
+      try {
+        await loadFeeds();
+        await loadArticles();
+      } catch {
+        // Silently ignore refresh errors
+      }
+    }, REFRESH_INTERVAL_MS);
+  });
+
+  onDestroy(() => {
+    if (refreshInterval !== null) {
+      clearInterval(refreshInterval);
     }
   });
 
@@ -85,8 +108,10 @@
 
     try {
       const feedId = $selectedFeedId;
-      const stream = feedId
-        ? (feedId as `feed/${string}`)
+      const stream: import('$lib/api/types').StreamId = feedId
+        ? feedId.startsWith('user/-/label/')
+          ? (feedId as `user/-/label/${string}`)
+          : (feedId as `feed/${string}`)
         : 'reading-list';
 
       const result = await client.getArticles(stream, {
@@ -109,8 +134,10 @@
 
     try {
       const feedId = $selectedFeedId;
-      const stream = feedId
-        ? (feedId as `feed/${string}`)
+      const stream: import('$lib/api/types').StreamId = feedId
+        ? feedId.startsWith('user/-/label/')
+          ? (feedId as `user/-/label/${string}`)
+          : (feedId as `feed/${string}`)
         : 'reading-list';
 
       const result = await client.getArticles(stream, {
@@ -129,9 +156,10 @@
   // -------------------------------------------------------------------------
 
   async function handleArticleSelected(articleId: string) {
+    const article = get(articles).find((a) => a.id === articleId) ?? null;
     selectArticle(articleId);
 
-    if ($settings.markReadOnOpen && $selectedArticle && !$selectedArticle.isRead) {
+    if ($settings.markReadOnOpen && article && !article.isRead) {
       markArticleRead(articleId);
       if ($selectedFeedId) decrementUnread($selectedFeedId);
 
@@ -147,13 +175,15 @@
 
   async function handleToggleRead(e: CustomEvent<{ articleId: string; isRead: boolean }>) {
     const { articleId, isRead } = e.detail;
+    const feedId = get(articles).find((a) => a.id === articleId)?.feedId;
 
     if (isRead) {
       markArticleUnread(articleId);
+      if (feedId) incrementUnread(feedId);
       await client?.markAsUnread(articleId);
     } else {
       markArticleRead(articleId);
-      if ($selectedFeedId) decrementUnread($selectedFeedId);
+      if (feedId) decrementUnread(feedId);
       await client?.markAsRead(articleId);
     }
   }

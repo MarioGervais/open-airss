@@ -47,6 +47,17 @@ export function setCategories(data: Category[]): void {
   categories.set(data);
 }
 
+export function incrementUnread(feedId: string, by = 1): void {
+  categories.update((cats) =>
+    cats.map((cat) => ({
+      ...cat,
+      feeds: cat.feeds.map((feed) =>
+        feed.id === feedId ? { ...feed, unreadCount: feed.unreadCount + by } : feed,
+      ),
+    })),
+  );
+}
+
 export function decrementUnread(feedId: string, by = 1): void {
   categories.update((cats) =>
     cats.map((cat) => ({

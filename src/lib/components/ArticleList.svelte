@@ -1,7 +1,7 @@
 <script lang="ts">
   // src/lib/components/ArticleList.svelte
 
-  import { articles, selectedArticleId, isLoadingArticles, isLoadingMore, hasMore, selectArticle } from '$lib/stores/articles';
+  import { articles, selectedArticleId, isLoadingArticles, isLoadingMore, hasMore } from '$lib/stores/articles';
   import { selectedFeed } from '$lib/stores/feeds';
   import { settings } from '$lib/stores/settings';
   import { createEventDispatcher } from 'svelte';
@@ -9,6 +9,7 @@
   const dispatch = createEventDispatcher<{
     loadMore: void;
     markAllRead: void;
+    selectArticle: string;
   }>();
 
   function formatDate(timestamp: number): string {
@@ -24,7 +25,7 @@
   }
 
   function handleArticleClick(articleId: string): void {
-    selectArticle(articleId);
+    dispatch('selectArticle', articleId);
   }
 
   function handleLoadMore(): void {

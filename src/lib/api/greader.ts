@@ -141,7 +141,9 @@ export class GReaderClient {
           ? "user/-/state/com.google/starred"
           : stream === "unread"
             ? "user/-/state/com.google/reading-list"
-            : `feed/${stream.replace(/^feed\//, "")}`;
+            : stream.startsWith("user/-/label/")
+              ? stream
+              : `feed/${stream.replace(/^feed\//, "")}`;
 
     const res = await this.get(
       `/reader/api/0/stream/contents/${encodeURIComponent(streamId)}?${params}`,

@@ -39,4 +39,4 @@ export interface ArticleList {
   continuation?: string; // pagination token
 }
 
-export type StreamId = "reading-list" | "starred" | "unread" | `feed/${string}`;
+export type StreamId = "reading-list" | "starred" | "unread" | `feed/${string}` | `user/-/label/${string}`;

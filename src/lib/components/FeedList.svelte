@@ -15,6 +15,12 @@
     expanded = { ...expanded }; // trigger reactivity
   }
 
+  function handleCategoryClick(catId: string): void {
+    selectFeed(catId);
+    if (expanded[catId] === undefined) expanded[catId] = true;
+    expanded = { ...expanded };
+  }
+
   function handleFeedClick(feedId: string): void {
     selectFeed(feedId);
   }
@@ -31,6 +37,7 @@
       <button
         class="feed-list__row"
         class:feed-list__row--active={$selectedFeedId === null}
+        class:feed-list__row--unread={$totalUnread > 0}
         on:click={handleAllClick}
       >
         <span class="feed-list__label">All articles</span>
@@ -48,10 +55,16 @@
       <li class="feed-list__category">
         <button
           class="feed-list__category-header"
-          on:click={() => toggleCategory(category.id)}
+          class:feed-list__category-header--unread={catUnread > 0}
+          class:feed-list__category-header--active={$selectedFeedId === category.id}
+          on:click={() => handleCategoryClick(category.id)}
           aria-expanded={isExpanded}
         >
-          <span class="feed-list__chevron" class:feed-list__chevron--open={isExpanded}>
+          <span
+            class="feed-list__chevron"
+            class:feed-list__chevron--open={isExpanded}
+            on:click|stopPropagation={() => toggleCategory(category.id)}
+          >
             ›
           </span>
           <span class="feed-list__category-label">{category.label}</span>
@@ -68,6 +81,7 @@
                   <button
                     class="feed-list__row"
                     class:feed-list__row--active={$selectedFeedId === feed.id}
+                    class:feed-list__row--unread={feed.unreadCount > 0}
                     on:click={() => handleFeedClick(feed.id)}
                   >
                     <span class="feed-list__favicon">
@@ -129,10 +143,19 @@
     cursor: pointer;
     color: var(--color-text-muted);
     font-size: 0.75rem;
-    font-weight: 600;
+    font-weight: 400;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     text-align: left;
+  }
+
+  .feed-list__category-header--unread {
+    font-weight: 600;
+  }
+
+  .feed-list__category-header--active {
+    color: var(--color-accent);
+    background: var(--color-sidebar-active);
   }
 
   .feed-list__category-header:hover {
@@ -176,11 +199,16 @@
     text-align: left;
     border-radius: 0;
     transition: background 0.1s ease;
+    font-weight: 400;
   }
 
   .feed-list__item--all .feed-list__row {
     padding-left: 1rem;
-    font-weight: 500;
+    font-weight: 400;
+  }
+
+  .feed-list__item--all .feed-list__row--unread {
+    font-weight: 600;
   }
 
   .feed-list__row:hover {
@@ -190,6 +218,10 @@
   .feed-list__row--active {
     background: var(--color-sidebar-active);
     color: var(--color-accent);
+  }
+
+  .feed-list__row--unread .feed-list__label {
+    font-weight: 600;
   }
 
   .feed-list__favicon {
