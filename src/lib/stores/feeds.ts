@@ -52,7 +52,9 @@ export function incrementUnread(feedId: string, by = 1): void {
     cats.map((cat) => ({
       ...cat,
       feeds: cat.feeds.map((feed) =>
-        feed.id === feedId ? { ...feed, unreadCount: feed.unreadCount + by } : feed,
+        feed.id === feedId
+          ? { ...feed, unreadCount: feed.unreadCount + by }
+          : feed,
       ),
     })),
   );
